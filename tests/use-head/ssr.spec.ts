@@ -1,14 +1,14 @@
 import { describe, expect, it, vi } from 'vitest'
 
-import { SsrScriptEntry } from '../script-entry'
+import { SsrScriptEntry } from '../../src/use-head/script-entry'
 import {
   createHead,
   escapeInlineScriptText,
   HEAD_SCRIPTS_PLACEHOLDER,
   isSsrScripts,
   replaceHeadScriptsPlaceholder,
-} from '../scripts'
-import type { HeadScriptDto } from '../types'
+} from '../../src/use-head/scripts'
+import type { HeadScriptDto } from '../../src/use-head/types'
 
 function scriptsToHtml (scripts: ReturnType<typeof createHead>['scripts']): string {
   if (!isSsrScripts(scripts)) {

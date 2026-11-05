@@ -7,7 +7,7 @@ import {
   createHead,
   DATA_LOADED_ATTR,
   DATA_LOADED_VALUE,
-} from '../scripts'
+} from '../../src/use-head/scripts'
 
 function flushMicrotasks (): Promise<void> {
   return Promise.resolve().then(() => undefined)
