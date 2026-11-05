@@ -1,3 +1,9 @@
+## [1.0.1](https://github.com/vue-modeler/plugins/compare/v1.0.0...v1.0.1) (2026-11-05)
+
+### Bug Fixes
+
+* **ci:** grant id-token write for npm publish ([55c2b27](https://github.com/vue-modeler/plugins/commit/55c2b2787a171f136d7e3424cd612bd77936b875))
+
 ## 1.0.0 (2026-11-05)
 
 ### Features
