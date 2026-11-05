@@ -1,0 +1,10 @@
+## 1.0.0 (2026-11-05)
+
+### Features
+
+* **plugin:** scaffold @vue-modeler/plugin npm package ([552b9ff](https://github.com/vue-modeler/plugins/commit/552b9ff2db02e17bd1ccce6875b46a81a50cc242))
+* **use-head:** init repo ([77e486e](https://github.com/vue-modeler/plugins/commit/77e486e58ecf1374277137cd60d7ba67e0ef3f9e))
+
+### Bug Fixes
+
+* **ci:** pass NODE_AUTH_TOKEN to npm whoami step ([b15d171](https://github.com/vue-modeler/plugins/commit/b15d17156d962f1d42985b682485e010c3536fb1))
