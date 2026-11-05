@@ -16,6 +16,9 @@ jobs:
       contents: write
       issues: write
       pull-requests: write
+      # Required for npm Trusted Publishing (OIDC). Without it, publish falls
+      # back to NPM_TOKEN and can hit EOTP if that token is not Automation-type.
+      id-token: write
     steps:
       - name: Checkout
         uses: actions/checkout@v5
