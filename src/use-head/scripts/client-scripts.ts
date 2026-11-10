@@ -50,7 +50,10 @@ export class ClientScripts implements HeadScriptsCollection {
   }
 
   private enqueue (entry: ClientScriptEntry): void {
-    if (entry.descriptor.insertTiming === INSERT_TIMINGS.server) {
+    if (
+      entry.descriptor.insertTiming === INSERT_TIMINGS.clientImmediate
+      || entry.descriptor.insertTiming === INSERT_TIMINGS.server
+    ) {
       entry.insert()
 
       return

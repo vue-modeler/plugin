@@ -5,7 +5,10 @@ import {
 
 export type GateCallback = () => void
 export type TimingHandler = (onReady: GateCallback) => void
-export type ClientInsertTiming = Exclude<InsertTiming, typeof INSERT_TIMINGS.server>
+export type ClientInsertTiming = Exclude<
+  InsertTiming,
+  typeof INSERT_TIMINGS.server | typeof INSERT_TIMINGS.clientImmediate
+>
 export type TimingHandlers = Record<ClientInsertTiming, TimingHandler>
 
 export const DEFAULT_TIMING_HANDLERS: TimingHandlers = {

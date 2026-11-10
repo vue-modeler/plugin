@@ -47,6 +47,17 @@ describe('use-head SSR toHtml / validation', () => {
     expect(html.indexOf('id="a"')).toBeLessThan(html.indexOf('id="c"'))
   })
 
+  it('omits client-immediate scripts from SSR html', () => {
+    const head = createHead()
+    head.scripts.push({
+      id: 'now',
+      text: 'now()',
+      insertTiming: 'client-immediate',
+    })
+
+    expect(scriptsToHtml(head.scripts)).toBe('')
+  })
+
   it('escapes inline script breakouts', () => {
     const escaped = escapeInlineScriptText('foo()</script><script>alert(1)')
 
