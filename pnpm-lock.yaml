@@ -4,6 +4,9 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  '@semantic-release/npm@13.2.0': 395bfe6dea8dfc2578c3f7bce76a2b23473ddc2e246e381419ca34780fde2a02
+
 importers:
 
   .:
@@ -3442,7 +3445,7 @@ snapshots:
       - kerberos
       - supports-color
 
-  '@semantic-release/npm@13.2.0(semantic-release@25.0.9(supports-color@8.1.1)(typescript@5.9.3))':
+  '@semantic-release/npm@13.2.0(patch_hash=395bfe6dea8dfc2578c3f7bce76a2b23473ddc2e246e381419ca34780fde2a02)(semantic-release@25.0.9(supports-color@8.1.1)(typescript@5.9.3))':
     dependencies:
       '@actions/core': 3.0.1
       '@semantic-release/error': 4.0.0
@@ -5120,7 +5123,7 @@ snapshots:
       '@semantic-release/commit-analyzer': 13.0.1(semantic-release@25.0.9(supports-color@8.1.1)(typescript@5.9.3))(supports-color@8.1.1)
       '@semantic-release/error': 4.0.0
       '@semantic-release/github': 12.0.10(semantic-release@25.0.9(supports-color@8.1.1)(typescript@5.9.3))(supports-color@8.1.1)
-      '@semantic-release/npm': 13.2.0(semantic-release@25.0.9(supports-color@8.1.1)(typescript@5.9.3))
+      '@semantic-release/npm': 13.2.0(patch_hash=395bfe6dea8dfc2578c3f7bce76a2b23473ddc2e246e381419ca34780fde2a02)(semantic-release@25.0.9(supports-color@8.1.1)(typescript@5.9.3))
       '@semantic-release/release-notes-generator': 14.1.1(semantic-release@25.0.9(supports-color@8.1.1)(typescript@5.9.3))(supports-color@8.1.1)
       aggregate-error: 5.1.0
       cosmiconfig: 9.0.2(typescript@5.9.3)

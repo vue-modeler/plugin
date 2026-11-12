@@ -1,0 +1,17 @@
+diff --git a/lib/trusted-publishing/token-exchange.js b/lib/trusted-publishing/token-exchange.js
+index 013f8ece61076ba1c862c2268dd85af4ffb4c23d..d7ddec0ee93d7c1fbc07bcf1df3a3aabe3d54d00 100644
+--- a/lib/trusted-publishing/token-exchange.js
++++ b/lib/trusted-publishing/token-exchange.js
+@@ -9,8 +9,11 @@ import {
+ } from "../definitions/constants.js";
+ 
+ async function exchangeIdToken(idToken, packageName, logger) {
++  // npm escapedName keeps "@" literal and only encodes "/" → "%2f".
++  // encodeURIComponent turns "@" into "%40" and the exchange returns 404.
++  const escapedPackageName = packageName.replaceAll("/", "%2f");
+   const response = await fetch(
+-    `${OFFICIAL_REGISTRY}-/npm/v1/oidc/token/exchange/package/${encodeURIComponent(packageName)}`,
++    `${OFFICIAL_REGISTRY}-/npm/v1/oidc/token/exchange/package/${escapedPackageName}`,
+     {
+       method: "POST",
+       headers: { Authorization: `Bearer ${idToken}` },

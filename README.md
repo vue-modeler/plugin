@@ -1,6 +1,6 @@
 # @vue-modeler/plugin
 
-[![test](https://github.com/vue-modeler/plugins/actions/workflows/test.yml/badge.svg)](https://github.com/vue-modeler/plugins/actions/workflows/test.yml)
+[![test](https://github.com/vue-modeler/plugin/actions/workflows/test.yml/badge.svg)](https://github.com/vue-modeler/plugin/actions/workflows/test.yml)
 
 Vue plugins for apps built with vue-modeler.
 
