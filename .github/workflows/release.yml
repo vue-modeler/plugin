@@ -16,8 +16,9 @@ jobs:
       contents: write
       issues: write
       pull-requests: write
-      # Required for npm Trusted Publishing (OIDC). Without it, publish falls
-      # back to NPM_TOKEN and can hit EOTP if that token is not Automation-type.
+      # Required for npm Trusted Publishing (OIDC). Without a matching Trusted
+      # Publisher on npmjs.com (repo vue-modeler/plugin, workflow release.yml),
+      # publish falls back to NPM_TOKEN and classic tokens hit EOTP under 2FA.
       id-token: write
     steps:
       - name: Checkout

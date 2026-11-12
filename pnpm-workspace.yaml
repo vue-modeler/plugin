@@ -1,2 +1,4 @@
 allowBuilds:
   esbuild: true
+patchedDependencies:
+  '@semantic-release/npm@13.2.0': patches/@semantic-release__npm@13.2.0.patch
