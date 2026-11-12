@@ -1,3 +1,10 @@
+## [1.1.2](https://github.com/vue-modeler/plugin/compare/v1.1.1...v1.1.2) (2026-11-12)
+
+### Bug Fixes
+
+* **ci:** publish via npm OIDC only, drop NPM_TOKEN ([66a6c54](https://github.com/vue-modeler/plugin/commit/66a6c54ac714b52a568b9222f0c509acab2e7097))
+* **ci:** run release only after tests pass ([19a77d8](https://github.com/vue-modeler/plugin/commit/19a77d8e9429d217e4dd38c7486f46dfebf42292))
+
 ## [1.1.1](https://github.com/vue-modeler/plugin/compare/v1.1.0...v1.1.1) (2026-11-12)
 
 ### Bug Fixes
