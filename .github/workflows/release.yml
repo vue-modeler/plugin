@@ -16,9 +16,7 @@ jobs:
       contents: write
       issues: write
       pull-requests: write
-      # Required for npm Trusted Publishing (OIDC). Without a matching Trusted
-      # Publisher on npmjs.com (repo vue-modeler/plugin, workflow release.yml),
-      # publish falls back to NPM_TOKEN and classic tokens hit EOTP under 2FA.
+      # Required for npm Trusted Publishing (OIDC).
       id-token: write
     steps:
       - name: Checkout
@@ -30,24 +28,13 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v5
 
+      # Do not set registry-url / NODE_AUTH_TOKEN here: that writes a classic
+      # token into ~/.npmrc and forces npm publish onto the EOTP path.
+      # Publish uses Trusted Publishing (OIDC) via semantic-release → npm CLI.
       - name: Setup Node.js
         uses: actions/setup-node@v5
         with:
           node-version: '24'
-          registry-url: 'https://registry.npmjs.org'
-          scope: '@vue-modeler'
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Verify npm authentication
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          if [ -z "${NODE_AUTH_TOKEN:-}" ]; then
-            echo "::error::NPM_TOKEN secret is empty or not configured in repository settings"
-            exit 1
-          fi
-          npm whoami
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -59,6 +46,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN || secrets.GITHUB_TOKEN }}
           GH_TOKEN: ${{ secrets.GH_TOKEN || secrets.GITHUB_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          # Intentionally no NPM_TOKEN / NODE_AUTH_TOKEN: classic tokens hit
+          # EOTP under "disallow bypass 2fa". Trusted Publisher must allow
+          # direct `npm publish` for vue-modeler/plugin + release.yml.
         run: pnpm semantic-release
