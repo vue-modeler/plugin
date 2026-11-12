@@ -1,3 +1,9 @@
+## [1.1.0](https://github.com/vue-modeler/plugin/compare/v1.0.1...v1.1.0) (2026-11-12)
+
+### Features
+
+* **use-head:** add client-immediate insert timing ([eecd37b](https://github.com/vue-modeler/plugin/commit/eecd37bf0202e0d221531a23ee737b63b0ad84a0))
+
 ## [1.0.1](https://github.com/vue-modeler/plugins/compare/v1.0.0...v1.0.1) (2026-11-05)
 
 ### Bug Fixes
