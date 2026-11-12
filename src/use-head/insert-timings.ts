@@ -1,5 +1,7 @@
 export const INSERT_TIMINGS = {
   server: 'server',
+  /** Client: insert during the current module turn, before DOMContentLoaded. */
+  clientImmediate: 'client-immediate',
   idle: 'idle',
   domContentLoaded: 'dom-content-loaded',
   windowLoad: 'window-load',

@@ -67,6 +67,47 @@ describe('use-head client', () => {
     expect(document.querySelectorAll('#sdk')).toHaveLength(1)
   })
 
+  it('client-immediate inserts during push, before DOMContentLoaded, and does not warn', () => {
+    Object.defineProperty(document, 'readyState', {
+      configurable: true,
+      get: () => 'loading',
+    })
+
+    try {
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+      const head = createHead()
+
+      head.scripts.push(
+        {
+          id: 'wait',
+          text: 'window.__wait = 1',
+          insertTiming: 'dom-content-loaded',
+        },
+        {
+          id: 'now',
+          text: 'window.__now = 1',
+          insertTiming: 'client-immediate',
+        },
+        {
+          id: 'next',
+          text: 'window.__next = 1',
+          insertTiming: 'client-immediate',
+        },
+      )
+
+      expect(document.readyState).toBe('loading')
+      expect(document.getElementById('wait')).toBeNull()
+      expect(document.getElementById('now')?.getAttribute(DATA_LOADED_ATTR)).toBe(DATA_LOADED_VALUE)
+      expect(document.getElementById('next')?.getAttribute(DATA_LOADED_ATTR)).toBe(DATA_LOADED_VALUE)
+      expect(
+        [...document.head.querySelectorAll('script')].map((el) => el.id),
+      ).toEqual(['now', 'next'])
+      expect(warn).not.toHaveBeenCalled()
+    } finally {
+      Reflect.deleteProperty(document, 'readyState')
+    }
+  })
+
   it('server timing without SSR tag inserts immediately and warns', async () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
     const head = createHead()
