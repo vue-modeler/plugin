@@ -1,3 +1,9 @@
+## [1.1.1](https://github.com/vue-modeler/plugin/compare/v1.1.0...v1.1.1) (2026-11-12)
+
+### Bug Fixes
+
+* **ci:** repair npm OIDC exchange for scoped packages ([e1f9151](https://github.com/vue-modeler/plugin/commit/e1f9151fe52a92b03a558da85f148f4673efe89f))
+
 ## [1.1.0](https://github.com/vue-modeler/plugin/compare/v1.0.1...v1.1.0) (2026-11-12)
 
 ### Features
