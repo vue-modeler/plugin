@@ -1,3 +1,4 @@
+import { ScriptFilters } from '../scripts/script-filters'
 import { ScriptEntry } from './script-entry'
 
 type AttrValue = string | boolean | undefined
@@ -5,8 +6,25 @@ type AttrValue = string | boolean | undefined
 export class SsrScriptEntry extends ScriptEntry {
   readonly loadPromise: Promise<void> = Promise.resolve()
 
-  /** Serialize this entry to an HTML `<script>` tag. */
-  toHtml (): string {
+  /**
+   * Serialize this entry to an HTML `<script>` tag.
+   * A filter returning `false` yields an empty string (tag omitted).
+   */
+  toHtml (filters: ScriptFilters = new ScriptFilters()): string {
+    try {
+      const skippedBy = filters.run(this.descriptor)
+
+      if (skippedBy !== undefined) {
+        console.info(`[useHead] skipped script "${this.identity}" by filter "${skippedBy}"`)
+
+        return ''
+      }
+    } catch (error) {
+      console.warn(`[useHead] skipped script "${this.identity}" due to filter error`, error)
+
+      return ''
+    }
+
     const { descriptor } = this
     const onload = typeof descriptor.src === 'string'
       ? renderStringAttr('onload', ScriptEntry.SSR_ONLOAD_ATTR)

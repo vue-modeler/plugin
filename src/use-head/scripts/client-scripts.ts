@@ -1,7 +1,8 @@
 import { INSERT_TIMINGS } from '../insert-timings'
 import { ClientScriptEntry } from '../script-entry'
-import type { HeadScriptDto, HeadScriptsCollection } from '../types'
+import type { HeadScriptDto, HeadScriptFilter, HeadScriptsCollection } from '../types'
 import { assertClientScope } from './environment'
+import { ScriptFilters } from './script-filters'
 import {
   DEFAULT_TIMING_HANDLERS,
   type TimingHandler,
@@ -12,6 +13,7 @@ export class ClientScripts implements HeadScriptsCollection {
   private readonly identityMap = new Map<string, ClientScriptEntry>()
   private readonly timingQueues = new Map<TimingHandler, ClientScriptEntry[]>()
   private readonly calledHandlers = new Set<TimingHandler>()
+  private readonly filters = new ScriptFilters()
 
   private constructor (private readonly timingHandlers: TimingHandlers = DEFAULT_TIMING_HANDLERS) {
     Object.values(timingHandlers).forEach((handler) => {
@@ -26,6 +28,10 @@ export class ClientScripts implements HeadScriptsCollection {
     assertClientScope('ClientScripts.create()')
 
     return new ClientScripts()
+  }
+
+  addFilter (name: string, filter: HeadScriptFilter): void {
+    this.filters.addFilter(name, filter)
   }
 
   push (...scripts: HeadScriptDto[]): Array<Promise<void>> {
@@ -54,7 +60,7 @@ export class ClientScripts implements HeadScriptsCollection {
       entry.descriptor.insertTiming === INSERT_TIMINGS.clientImmediate
       || entry.descriptor.insertTiming === INSERT_TIMINGS.server
     ) {
-      entry.insert()
+      entry.insert(this.filters)
 
       return
     }
@@ -79,7 +85,7 @@ export class ClientScripts implements HeadScriptsCollection {
 
   private applyTimingHandler (handler: TimingHandler): void {
     for (const entry of this.getQueue(handler)) {
-      entry.insert()
+      entry.insert(this.filters)
     }
 
     this.timingQueues.delete(handler)

@@ -1,10 +1,18 @@
 import { INSERT_TIMINGS } from '../insert-timings'
 import { SsrScriptEntry } from '../script-entry'
-import type { HeadScriptDto, HeadScriptsCollection, SsrHeadScriptsCollection } from '../types'
+import type {
+  HeadScriptDto,
+  HeadScriptFilter,
+  HeadScriptsCollection,
+  SsrHeadScriptsCollection,
+} from '../types'
 import { assertSsrScope } from './environment'
+import { ScriptFilters } from './script-filters'
 
+/** SSR collection: registers descriptors; skip checks run in `toHtml`. */
 export class SsrScripts implements SsrHeadScriptsCollection {
   private readonly byIdentity = new Map<string, SsrScriptEntry>()
+  private readonly filters = new ScriptFilters()
 
   private constructor () {
     // Use SsrScripts.create() so the SSR environment is checked first.
@@ -14,6 +22,10 @@ export class SsrScripts implements SsrHeadScriptsCollection {
     assertSsrScope('SsrScripts.create()')
 
     return new SsrScripts()
+  }
+
+  addFilter (name: string, filter: HeadScriptFilter): void {
+    this.filters.addFilter(name, filter)
   }
 
   push (...scripts: HeadScriptDto[]): Array<Promise<void>> {
@@ -28,7 +40,7 @@ export class SsrScripts implements SsrHeadScriptsCollection {
         continue
       }
 
-      html += entry.toHtml()
+      html += entry.toHtml(this.filters)
     }
 
     return html
