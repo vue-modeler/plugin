@@ -24,8 +24,16 @@ export interface HeadScriptDto {
   insertTiming: InsertTiming
 }
 
+/**
+ * Runs at emit (`insert` / `toHtml`).
+ * `true` — allow; `false` — skip (reject client load promise / omit from SSR HTML).
+ */
+export type HeadScriptFilter = (script: HeadScriptDto) => boolean
+
 export interface HeadScriptsCollection {
   push: (...scripts: HeadScriptDto[]) => Array<Promise<void>>
+  /** `name` is stored on `ScriptSkippedError` when the filter returns `false`. */
+  addFilter: (name: string, filter: HeadScriptFilter) => void
 }
 
 export interface SsrHeadScriptsCollection extends HeadScriptsCollection {

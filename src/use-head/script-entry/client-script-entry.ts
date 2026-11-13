@@ -1,4 +1,6 @@
 import { INSERT_TIMINGS } from '../insert-timings'
+import { ScriptLoadError, ScriptSkippedError } from '../errors'
+import type { ScriptFilters } from '../scripts/script-filters'
 import type { HeadScriptDto } from '../types'
 import { ScriptEntry } from './script-entry'
 
@@ -40,14 +42,29 @@ export class ClientScriptEntry extends ScriptEntry {
   }
 
   protected fail (reason: unknown): void {
-    const error = new Error(`[useHead] failed to load script "${this.identity}"`, { cause: reason })
-
-    this.rejectLoad(error)
+    this.rejectLoad(new ScriptLoadError(this.identity, this.descriptor, { cause: reason }))
   }
 
-  /** Adopt an existing DOM tag or append a new one into `document.head`. */
-  insert (): void {
+  /**
+   * Adopt an existing DOM tag or append a new one into `document.head`.
+   * A filter returning `false` calls `fail` with `ScriptSkippedError` as `cause`.
+   */
+  insert (filters: ScriptFilters): void {
     if (this.el) {
+      return
+    }
+
+    try {
+      const skippedBy = filters.run(this.descriptor)
+
+      if (skippedBy) {
+        this.fail(new ScriptSkippedError(this.identity, skippedBy))
+
+        return
+      }
+    } catch (error) {
+      this.fail(error)
+
       return
     }
 
