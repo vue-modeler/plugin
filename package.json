@@ -1,7 +1,7 @@
 {
   "type": "module",
   "name": "@vue-modeler/plugin",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "engines": {
     "node": ">=24",
     "pnpm": ">=11"

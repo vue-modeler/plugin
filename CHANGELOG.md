@@ -1,3 +1,9 @@
+## [1.2.0](https://github.com/vue-modeler/plugin/compare/v1.1.2...v1.2.0) (2026-11-13)
+
+### Features
+
+* **use-head:** add named script filters and typed load errors ([22c8835](https://github.com/vue-modeler/plugin/commit/22c88358a536acb2a15bf77404b6c151f8d3e536))
+
 ## [1.1.2](https://github.com/vue-modeler/plugin/compare/v1.1.1...v1.1.2) (2026-11-12)
 
 ### Bug Fixes
