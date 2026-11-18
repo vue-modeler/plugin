@@ -24,7 +24,9 @@ export class SsrScripts implements SsrHeadScriptsCollection {
     return new SsrScripts()
   }
 
-  addFilter (...entries: HeadScriptFilterEntry[]): this {
+  addFilter<TScript extends HeadScriptDto = HeadScriptDto> (
+    ...entries: Array<HeadScriptFilterEntry<TScript>>
+  ): this {
     this.filters.addFilter(...entries)
 
     return this

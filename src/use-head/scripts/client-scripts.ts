@@ -30,7 +30,9 @@ export class ClientScripts implements HeadScriptsCollection {
     return new ClientScripts()
   }
 
-  addFilter (...entries: HeadScriptFilterEntry[]): this {
+  addFilter<TScript extends HeadScriptDto = HeadScriptDto> (
+    ...entries: Array<HeadScriptFilterEntry<TScript>>
+  ): this {
     this.filters.addFilter(...entries)
 
     return this

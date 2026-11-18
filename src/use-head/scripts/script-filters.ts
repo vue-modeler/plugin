@@ -2,10 +2,15 @@ import type { HeadScriptDto, HeadScriptFilterEntry } from '../types'
 
 /** Named filters; entry runs them at emit (`insert` / `toHtml`). `false` = skip. */
 export class ScriptFilters {
-  private readonly filters: HeadScriptFilterEntry[] = []
+  private readonly filters: Array<HeadScriptFilterEntry> = []
 
-  addFilter (...entries: HeadScriptFilterEntry[]): this {
-    this.filters.push(...entries)
+  addFilter<TScript extends HeadScriptDto = HeadScriptDto> (
+    ...entries: Array<HeadScriptFilterEntry<TScript>>
+  ): this {
+    this.filters.push(...entries.map((entry) => ({
+      key: entry.key,
+      filter: (script: HeadScriptDto) => entry.filter(script as TScript),
+    })))
 
     return this
   }

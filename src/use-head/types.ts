@@ -27,19 +27,24 @@ export interface HeadScriptDto {
 /**
  * Runs at emit (`insert` / `toHtml`).
  * `true` — allow; `false` — skip (reject client load promise / omit from SSR HTML).
+ * `TScript` types the callback argument. The collection still stores `HeadScriptDto`.
  */
-export type HeadScriptFilter = (script: HeadScriptDto) => boolean
+export type HeadScriptFilter<TScript extends HeadScriptDto = HeadScriptDto> = (
+  script: TScript,
+) => boolean
 
-export interface HeadScriptFilterEntry {
+export interface HeadScriptFilterEntry<TScript extends HeadScriptDto = HeadScriptDto> {
   /** Stored on `ScriptSkippedError.filterName` when the filter returns `false`. */
   key: string
-  filter: HeadScriptFilter
+  filter: HeadScriptFilter<TScript>
 }
 
 export interface HeadScriptsCollection {
   push: (...scripts: HeadScriptDto[]) => Array<Promise<void>>
   /** Registers filters in call order and returns this collection. */
-  addFilter (...entries: HeadScriptFilterEntry[]): this
+  addFilter<TScript extends HeadScriptDto = HeadScriptDto> (
+    ...entries: Array<HeadScriptFilterEntry<TScript>>
+  ): this
   // TScript is chosen by the caller. It types the returned `scripts` argument only.
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-parameters
   createLoader<TScript extends HeadScriptDto = HeadScriptDto>(): (
