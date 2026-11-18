@@ -2,7 +2,7 @@ import { INSERT_TIMINGS } from '../insert-timings'
 import { SsrScriptEntry } from '../script-entry'
 import type {
   HeadScriptDto,
-  HeadScriptFilter,
+  HeadScriptFilterEntry,
   HeadScriptsCollection,
   SsrHeadScriptsCollection,
 } from '../types'
@@ -24,8 +24,20 @@ export class SsrScripts implements SsrHeadScriptsCollection {
     return new SsrScripts()
   }
 
-  addFilter (name: string, filter: HeadScriptFilter): void {
-    this.filters.addFilter(name, filter)
+  addFilter<TScript extends HeadScriptDto = HeadScriptDto> (
+    ...entries: Array<HeadScriptFilterEntry<TScript>>
+  ): this {
+    this.filters.addFilter(...entries)
+
+    return this
+  }
+
+  // TScript is chosen by the caller. It types the returned `scripts` argument only.
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-parameters
+  createLoader<TScript extends HeadScriptDto = HeadScriptDto> (): (
+    ...scripts: TScript[]
+  ) => Array<Promise<void>> {
+    return (...scripts) => this.push(...scripts)
   }
 
   push (...scripts: HeadScriptDto[]): Array<Promise<void>> {
