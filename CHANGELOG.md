@@ -1,3 +1,9 @@
+## [1.3.0](https://github.com/vue-modeler/plugin/compare/v1.2.0...v1.3.0) (2026-11-18)
+
+### Features
+
+* **use-head:** add generic createScriptLoader ([f92138f](https://github.com/vue-modeler/plugin/commit/f92138f67e2aca68db70438f35d50f4acb526c0b))
+
 ## [1.2.0](https://github.com/vue-modeler/plugin/compare/v1.1.2...v1.2.0) (2026-11-13)
 
 ### Features
