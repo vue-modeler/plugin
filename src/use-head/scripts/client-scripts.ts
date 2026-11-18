@@ -1,6 +1,6 @@
 import { INSERT_TIMINGS } from '../insert-timings'
 import { ClientScriptEntry } from '../script-entry'
-import type { HeadScriptDto, HeadScriptFilter, HeadScriptsCollection } from '../types'
+import type { HeadScriptDto, HeadScriptFilterEntry, HeadScriptsCollection } from '../types'
 import { assertClientScope } from './environment'
 import { ScriptFilters } from './script-filters'
 import {
@@ -30,8 +30,18 @@ export class ClientScripts implements HeadScriptsCollection {
     return new ClientScripts()
   }
 
-  addFilter (name: string, filter: HeadScriptFilter): void {
-    this.filters.addFilter(name, filter)
+  addFilter (...entries: HeadScriptFilterEntry[]): this {
+    this.filters.addFilter(...entries)
+
+    return this
+  }
+
+  // TScript is chosen by the caller. It types the returned `scripts` argument only.
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-parameters
+  createLoader<TScript extends HeadScriptDto = HeadScriptDto> (): (
+    ...scripts: TScript[]
+  ) => Array<Promise<void>> {
+    return (...scripts) => this.push(...scripts)
   }
 
   push (...scripts: HeadScriptDto[]): Array<Promise<void>> {

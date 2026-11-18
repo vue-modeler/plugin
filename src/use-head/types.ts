@@ -30,10 +30,21 @@ export interface HeadScriptDto {
  */
 export type HeadScriptFilter = (script: HeadScriptDto) => boolean
 
+export interface HeadScriptFilterEntry {
+  /** Stored on `ScriptSkippedError.filterName` when the filter returns `false`. */
+  key: string
+  filter: HeadScriptFilter
+}
+
 export interface HeadScriptsCollection {
   push: (...scripts: HeadScriptDto[]) => Array<Promise<void>>
-  /** `name` is stored on `ScriptSkippedError` when the filter returns `false`. */
-  addFilter: (name: string, filter: HeadScriptFilter) => void
+  /** Registers filters in call order and returns this collection. */
+  addFilter (...entries: HeadScriptFilterEntry[]): this
+  // TScript is chosen by the caller. It types the returned `scripts` argument only.
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-parameters
+  createLoader<TScript extends HeadScriptDto = HeadScriptDto>(): (
+    ...scripts: TScript[]
+  ) => Array<Promise<void>>
 }
 
 export interface SsrHeadScriptsCollection extends HeadScriptsCollection {
