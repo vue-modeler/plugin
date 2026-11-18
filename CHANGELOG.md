@@ -1,3 +1,10 @@
+## [1.4.0](https://github.com/vue-modeler/plugin/compare/v1.3.0...v1.4.0) (2026-11-18)
+
+### Features
+
+* **use-head:** replace createScriptLoader with createLoader ([6f2a11c](https://github.com/vue-modeler/plugin/commit/6f2a11c9d1e6ad81d736fc8017c7f136eeeed64d))
+* **use-head:** type script filters with the caller script ([aa6a0ee](https://github.com/vue-modeler/plugin/commit/aa6a0eecf125abb1908c516728e84dc0d0cb7d90))
+
 ## [1.3.0](https://github.com/vue-modeler/plugin/compare/v1.2.0...v1.3.0) (2026-11-18)
 
 ### Features
