@@ -1,5 +1,6 @@
 import './vue-augmentation'
 
+export { createScriptLoader } from './create-script-loader'
 export { UseHeadPlugin } from './plugin'
 export { useHead } from './use-head'
 export {
